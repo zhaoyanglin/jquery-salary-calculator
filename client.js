@@ -1,6 +1,10 @@
 $(document).ready(onReady);
 
-let totalSalary = 0;
+let totalMonthlySalary = 0;
+
+employeeArray = [];
+
+
 
 function onReady() {
     console.log('onReady works');
@@ -8,35 +12,42 @@ function onReady() {
     $('#submitButton').on('click', showingInput);
     $('#ogTable').on('click', '.deleteButton', deleteFunction);
 
+
 };
 
 function showingInput() {
-    let firstNameInput = $('#firstNameInput').val();
-    let lastNameInput = $('#lastNameInput').val();
-    let idInput = $('#idInput').val();
-    let titleInput = $('#titleInput').val();
-    let annualSalaryInput = $('#annualSalaryInput').val();
-
+    let employees = {
+        firstNameInput: $('#firstNameInput').val(),
+        lastNameInput: $('#lastNameInput').val(),
+        idInput: $('#idInput').val(),
+        titleInput: $('#titleInput').val(),
+        annualSalaryInput: $('#annualSalaryInput').val()
+    };
     $('#tableBody').append(`            
                 <tr class='newTableRow'>
-                <td class='firstNameData'>${firstNameInput}</td>
-                <td class='lastNameData'>${lastNameInput}</td>
-                <td class='idData'>${idInput}</td>
-                <td class='titleData'>${titleInput}</td>
-                <td class='annualSalaryData'>${annualSalaryInput}</td>
+                <td class='firstNameData'> ${employees.firstNameInput}</td>
+                <td class='lastNameData'>${employees.lastNameInput}</td>
+                <td class='idData'>${employees.idInput}</td>
+                <td class='titleData'>${employees.titleInput}</td>
+                <td class='annualSalaryData'>${employees.annualSalaryInput}</td>
                 <td class='button'><button              class="deleteButton">Delete</button></td>
                 </tr>`);
+    employeeArray.push(employees)
+    console.log(employeeArray);
+
     $('input').val(null);
-    addingSalary(annualSalaryInput);
+    addingSalary();
 };
 
-function addingSalary(annualSalaryInput) {
+function addingSalary() {
+    for (let i = 0; i < employeeArray.length; i++) {
+        totalMonthlySalary += Number(employeeArray[i].annualSalaryInput/12)
 
-    totalSalary = Number(annualSalaryInput) + totalSalary
+        console.log(totalMonthlySalary);
+}
+    $('#totalSalaryAtP').replaceWith(`<p id='totalSalaryAtP'>Total Monthly Salary total:${totalMonthlySalary}</p>`)
 
-    $('#totalSalaryAtP').replaceWith(`<p id='totalSalaryAtP'>Total Salary:${totalSalary}</p>`)
-
-    if (totalSalary > 20000) {
+    if (totalMonthlySalary > 20000) {
         $('#totalSalaryAtP').css('color', 'red')
     }
 }
@@ -44,7 +55,3 @@ function addingSalary(annualSalaryInput) {
 function deleteFunction() {
     $(this).closest('.newTableRow').empty()
 }
-
-
-
-
