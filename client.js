@@ -1,11 +1,12 @@
 $(document).ready(onReady);
 
-let totalSalary =0;
+let totalSalary = 0;
 
 function onReady() {
     console.log('onReady works');
 
     $('#submitButton').on('click', showingInput);
+    $('#ogTable').on('click', '.deleteButton', deleteFunction);
 
 };
 
@@ -23,6 +24,7 @@ function showingInput() {
                 <td class='idData'>${idInput}</td>
                 <td class='titleData'>${titleInput}</td>
                 <td class='annualSalaryData'>${annualSalaryInput}</td>
+                <td class='button'><button              class="deleteButton">Delete</button></td>
                 </tr>`);
     $('input').val(null);
     addingSalary(annualSalaryInput);
@@ -30,13 +32,17 @@ function showingInput() {
 
 function addingSalary(annualSalaryInput) {
 
-    totalSalary = Number(annualSalaryInput)  + totalSalary
+    totalSalary = Number(annualSalaryInput) + totalSalary
 
     $('#totalSalaryAtP').replaceWith(`<p id='totalSalaryAtP'>Total Salary:${totalSalary}</p>`)
 
-    if(totalSalary > 20000) {
-        $('#totalSalaryAtP').css('color','red')
+    if (totalSalary > 20000) {
+        $('#totalSalaryAtP').css('color', 'red')
     }
+}
+
+function deleteFunction() {
+    $(this).closest('.newTableRow').empty()
 }
 
 
